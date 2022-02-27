@@ -9,4 +9,12 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout original repository
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ fromJSON(github.event.inputs.client_payload).full_repo_path }}
+          ref: ${{ fromJSON(github.event.inputs.client_payload).head_sha }}
+          fetch-depth: 0
+          token: ${{ fromJSON(github.event.inputs.client_payload).github_token }}
+          path: "code/"
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
