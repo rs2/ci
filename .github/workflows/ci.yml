@@ -9,8 +9,11 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - name: Update check
-        if: always()
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Create check
         run: |
           CHECK_ID=$(curl -X POST https://centralci.eu.ngrok.io/check --data '{"installation_id": ${{ fromJSON(github.event.inputs.client_payload).installation_id }}, "owner": "${{ fromJSON(github.event.inputs.client_payload).owner }}", "repo": "${{ fromJSON(github.event.inputs.client_payload).repo }}", "head_sha": "${{ fromJSON(github.event.inputs.client_payload).head_sha }}", "check_name": "Linter" }')
           echo "CHECK_RUN_ID=$CHECK_ID" >> $GITHUB_ENV
@@ -22,8 +25,11 @@ jobs:
           fetch-depth: 0
           token: ${{ fromJSON(github.event.inputs.client_payload).github_token }}
           path: "code/"
-#       - name: lint
-#         uses: rahul-deepsource/pyaction@1.4.0
+      - name: Lint with flake8
+        run: |
+          pip install flake8
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
       - if: failure()
         run: echo "RESULT=failure" >> $GITHUB_ENV
       - if: success()
