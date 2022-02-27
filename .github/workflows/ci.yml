@@ -22,8 +22,8 @@ jobs:
           fetch-depth: 0
           token: ${{ fromJSON(github.event.inputs.client_payload).github_token }}
           path: "code/"
-      - name: lint
-        uses: rahul-deepsource/pyaction@1.4.0
+#       - name: lint
+#         uses: rahul-deepsource/pyaction@1.4.0
       - if: failure()
         run: echo "RESULT=failure" >> $GITHUB_ENV
       - if: success()
