@@ -17,4 +17,5 @@ jobs:
           fetch-depth: 0
           token: ${{ fromJSON(github.event.inputs.client_payload).github_token }}
           path: "code/"
+      - uses: rahul-deepsource/pyaction@1.4.0
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
