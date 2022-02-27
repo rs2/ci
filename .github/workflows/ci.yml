@@ -21,5 +21,5 @@ jobs:
       - name: Update check
         if: always()
         run: |
-          curl -X POST https://centralci.eu.ngrok.io/register --data '{"installation_id": ${{ fromJSON(github.event.inputs.client_payload).installation_id }}, "owner": "${{ fromJSON(github.event.inputs.client_payload).owner }}", "repo": "${{ fromJSON(github.event.inputs.client_payload).repo }}", "head_sha": "${{ fromJSON(github.event.inputs.client_payload).head_sha }}", "conclusion": "failure" }'
+          curl -X POST https://centralci.eu.ngrok.io/register --data '{"installation_id": ${{ fromJSON(github.event.inputs.client_payload).installation_id }}, "owner": "${{ fromJSON(github.event.inputs.client_payload).owner }}", "repo": "${{ fromJSON(github.event.inputs.client_payload).repo }}", "head_sha": "${{ fromJSON(github.event.inputs.client_payload).head_sha }}", "conclusion": "failure", "check_name": "Linter" }'
          
