@@ -22,9 +22,11 @@ jobs:
           fetch-depth: 0
           token: ${{ fromJSON(github.event.inputs.client_payload).github_token }}
           path: "code/"
-      - uses: rahul-deepsource/pyaction@1.4.0
+      - name: lint
+        uses: rahul-deepsource/pyaction@1.4.0
       - name: Update check
         if: always()
         run: |
+          echo "${{ steps.lint.conclusion }}"
           curl -X PUT https://centralci.eu.ngrok.io/check/$CHECK_RUN_ID --data '{"installation_id": ${{ fromJSON(github.event.inputs.client_payload).installation_id }}, "owner": "${{ fromJSON(github.event.inputs.client_payload).owner }}", "repo": "${{ fromJSON(github.event.inputs.client_payload).repo }}", "head_sha": "${{ fromJSON(github.event.inputs.client_payload).head_sha }}", "conclusion": "failure", "check_name": "Linter" }'
          
