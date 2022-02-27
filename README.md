@@ -1,2 +1,2 @@
-# cu
+# central CI
 Central CI repository
