@@ -15,7 +15,7 @@ jobs:
           python-version: 3.8
       - name: Create check
         run: |
-          CHECK_ID=$(curl -X POST https://centralci.eu.ngrok.io/check --data '{"installation_id": ${{ fromJSON(github.event.inputs.client_payload).installation_id }}, "owner": "${{ fromJSON(github.event.inputs.client_payload).owner }}", "repo": "${{ fromJSON(github.event.inputs.client_payload).repo }}", "head_sha": "${{ fromJSON(github.event.inputs.client_payload).head_sha }}", "check_name": "Linter" }')
+          CHECK_ID=$(curl -X POST https://central-ci.ngrok.io/check --data '{"installation_id": ${{ fromJSON(github.event.inputs.client_payload).installation_id }}, "owner": "${{ fromJSON(github.event.inputs.client_payload).owner }}", "repo": "${{ fromJSON(github.event.inputs.client_payload).repo }}", "head_sha": "${{ fromJSON(github.event.inputs.client_payload).head_sha }}", "check_name": "Linter" }')
           echo "CHECK_RUN_ID=$CHECK_ID" >> $GITHUB_ENV
       - name: Checkout original repository
         uses: actions/checkout@v2
@@ -37,4 +37,4 @@ jobs:
       - name: Update failed check
         if: always()
         run: |
-          curl -X PUT https://centralci.eu.ngrok.io/check/$CHECK_RUN_ID --data '{"installation_id": ${{ fromJSON(github.event.inputs.client_payload).installation_id }}, "owner": "${{ fromJSON(github.event.inputs.client_payload).owner }}", "repo": "${{ fromJSON(github.event.inputs.client_payload).repo }}", "head_sha": "${{ fromJSON(github.event.inputs.client_payload).head_sha }}", "conclusion": "${{ env.RESULT }}", "check_name": "Linter" }'
+          curl -X PUT https://central-ci.ngrok.io/check/$CHECK_RUN_ID --data '{"installation_id": ${{ fromJSON(github.event.inputs.client_payload).installation_id }}, "owner": "${{ fromJSON(github.event.inputs.client_payload).owner }}", "repo": "${{ fromJSON(github.event.inputs.client_payload).repo }}", "head_sha": "${{ fromJSON(github.event.inputs.client_payload).head_sha }}", "conclusion": "${{ env.RESULT }}", "check_name": "Linter" }'
